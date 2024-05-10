@@ -76,28 +76,28 @@ https://drive.google.com/file/d/1tAhZ3i4Pc_P3Fabmg62hGVHwKeSQtYaY/view
 https://drive.google.com/file/d/1w0TorBfTIqbquQVd6k3h_77ypnrvfGwf/view
 
 #### Requirements:
-blinker==1.8.2
-click==8.1.7
-colorama==0.4.6
-filelock==3.14.0
-Flask==3.0.3
-Flask-Cors==4.0.1
-fsspec==2024.3.1
-intel-openmp==2021.4.0
-itsdangerous==2.2.0
-Jinja2==3.1.4
-MarkupSafe==2.1.5
-mkl==2021.4.0
-mpmath==1.3.0
-networkx==3.3
-numpy==1.26.4
-pillow==10.3.0
-sympy==1.12
-tbb==2021.12.0
-torch==2.3.0
-torchvision==0.18.0
-typing_extensions==4.11.0
-Werkzeug==3.0.3
+* blinker==1.8.2
+* click==8.1.7
+* colorama==0.4.6
+* filelock==3.14.0
+* Flask==3.0.3
+* Flask-Cors==4.0.1
+* fsspec==2024.3.1
+* intel-openmp==2021.4.0
+* itsdangerous==2.2.0
+* Jinja2==3.1.4
+* MarkupSafe==2.1.5
+* mkl==2021.4.0
+* mpmath==1.3.0
+* networkx==3.3
+* numpy==1.26.4
+* pillow==10.3.0
+* sympy==1.12
+* tbb==2021.12.0
+* torch==2.3.0
+* torchvision==0.18.0
+* typing_extensions==4.11.0
+* Werkzeug==3.0.3
 
 
 ## 3 Benchmark Evaluation
