@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Beauty Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .buttoncont{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #imageContainer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #imageContainer img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Beauty predictor!</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <div class="buttoncont">
+        <button onclick="chooseFile()">Choose File</button>
+        <button onclick="takePicture()">Take Picture</button>
+        <button onclick="classifyImage()">Predict my rating!</button>
+    </div>
+   
+    <div id="result"></div>
+    <div id="imageContainer"></div>
+
+
+    <script>
+        function chooseFile() {
+            var fileInput = document.getElementById('imageInput');
+            fileInput.click();
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    var file = fileInput.files[0];
+                    displayImage(file);
+                }
+            });
+        }
+
+        function takePicture() {
+            var video = document.createElement('video');
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.error('Error accessing the camera: ', err);
+                });
+
+            video.addEventListener('canplay', function() {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var imageDataURL = canvas.toDataURL('image/jpeg');
+                displayImage(imageDataURL);
+                video.srcObject.getVideoTracks().forEach(track => track.stop());
+            });
+        }
+
+        function displayImage(fileOrDataURL) {
+            var imageContainer = document.getElementById('imageContainer');
+            var img = document.createElement('img');
+            if (typeof fileOrDataURL === 'string') {
+                img.src = fileOrDataURL; // For dataURL
+            } else {
+                img.src = URL.createObjectURL(fileOrDataURL); // For File/Blob object
+            }
+            imageContainer.innerHTML = ''; // Clear previous image
+            imageContainer.appendChild(img);
+        }
+
+        function classifyImage() {
+            var imageContainer = document.getElementById('imageContainer');
+            var img = imageContainer.querySelector('img');
+            if (!img) {
+                alert('Please choose a file or take a picture first.');
+                return;
+            }
+
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageDataURL = canvas.toDataURL('image/jpeg');
+            var file = dataURLtoFile(imageDataURL, 'image.jpg');
+            
+            var formData = new FormData();
+            formData.append('file', file);
+
+            fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                var prediction = parseFloat(data.prediction);
+                if (prediction > 3) {
+                    var comment = "You are Dazzling!"
+                }else if(prediction < 3 && prediction > 2){
+                    var comment = "You look great!"
+                }else{
+                    var comment = "Lock in Fam, you look like a duck💀"
+                }
+                prediction = prediction.toFixed(2); // Round to two decimal places
+                
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `<p>Look Rating: ${prediction} / 5 ${comment}</p>`;
+                console.log(data);
+
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function dataURLtoFile(dataURL, filename) {
+            var arr = dataURL.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+    </script>
+</body>
+</html>

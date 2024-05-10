@@ -1,0 +1,14 @@
+/Save
+/facial landmark
+/landmark_txt
+/data
+pts2txt.py
+/trained_models_for_pytorch/__pycache__
+/trained_models_for_pytorch/venv
+/trained_models_for_pytorch/forward.py
+/trained_models_for_pytorch/Nets.py
+/trained_models_for_pytorch/Nets.pyc
+/trained_models_for_pytorch/tempCodeRunnerFile.py
+/trained_models_for_pytorch/models/alexnet.pth
+/trained_models_for_pytorch/models/resnet18.pth
+/venv
