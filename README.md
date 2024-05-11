@@ -1,10 +1,10 @@
 # Facial Beauty prediction
-Implementaion of pretrained model from:
+Implementation of pretrained model from this repo 👇:
 * https://github.com/HCIILAB/SCUT-FBP5500-Database-Release
 
 * Using flask to serve up the model
 * Using Alexnet Architecture for prediction
-* Correlation:0.8721      Mae:0.2724      Rmse:0.3552
+* Correlation: 0.8721      Mae: 0.2724      Rmse: 0.3552
 
 Research Paper
 * https://www.mdpi.com/2673-4591/56/1/125#:~:text=Facial%20beauty%20prediction%20is%20a,scores%20for%20facial%20beauty%20prediction.
@@ -13,11 +13,11 @@ Research Paper
 ### Steps to run
 * Clone the repository
 ```
-git clone <repository_url>
+git clone https://github.com/Alansaji2003/Facial-Beauty-Prediction.git
 ```
 * Navigate to the Project Directory
 ```
-cd <project_directory>
+cd Facial-Beauty-Prediction
 ```
 * Download pytorch model from the link given below
 ```
